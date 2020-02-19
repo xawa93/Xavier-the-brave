@@ -1,6 +1,8 @@
 # on first time run
 # !pip install --user scikit-learn
 # !pip install --user nltk
+# !pip install --user textblob 
+#Once the package is installed comment the installed packages not to install it twice
 
 # import packages and stopwords list
 
