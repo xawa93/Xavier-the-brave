@@ -1,0 +1,82 @@
+# on first time run
+# !pip install --user scikit-learn
+# !pip install --user nltk
+
+# import packages and stopwords list
+
+
+import pandas as pd
+from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
+from textblob import TextBlob
+import nltk
+nltk.download('stopwords')
+
+from nltk.corpus import stopwords
+
+# use English stopwords
+stops = set(stopwords.words("english"))
+
+# read the data
+df = pd.read_csv('Reviews.csv')
+
+# drop data with missing values
+df = df.dropna()
+
+# convert the relevant column to lowercase
+df['Review'] = df.Review.str.lower() 
+
+# set vectorizer - CountVectorizer for word counts and TfidfVectorizer for TF-IDF
+vectorizer = CountVectorizer()
+# vectorizer = TfidfVectorizer()
+
+# create an array of word counts / TF-IDF scores
+doc_vec = vectorizer.fit_transform(df.Review)
+
+# convert this to a dataframe
+df2 = pd.DataFrame(doc_vec.toarray(), columns=vectorizer.get_feature_names())
+
+# drop any columns which are based on stopwords
+df2 = df2.drop(columns=[col for col in df2 if col in stops])
+
+# set a threshold to drop infrequent words
+threshold = 0.2
+
+# drop words based on the threshold
+df2 = df2.drop(df2.mean()[df2.mean() < threshold].index.values, axis=1)
+
+# join the two datasets together
+df = df.join(df2, how='left')
+
+# set vectorizer - CountVectorizer for word counts and TfidfVectorizer for TF-IDF
+vectorizer = TfidfVectorizer()
+
+# create an array of word counts / TF-IDF scores
+doc_vec = vectorizer.fit_transform(df.Review)
+
+# convert this to a dataframe
+df3 = pd.DataFrame(doc_vec.toarray(), columns=vectorizer.get_feature_names())
+
+# drop any columns which are based on stopwords
+df3 = df3.drop(columns=[col for col in df3 if col in stops])
+
+threshold = 0.7
+
+
+# drop words based on the threshold
+df3 = df3.drop(df3.max()[df3.max() < threshold].index.values, axis=1)
+
+# rename columns to include 'tfidf'
+df3.rename(columns=lambda x: x + "-tfidf", inplace=True)
+
+# join the two datasets together
+df = df.join(df3, how='left')
+
+# calculate polarity and subjectivity
+df['Polarity'] = df['Review'].apply(lambda review: TextBlob(str(review)).sentiment.polarity)
+df['Subjectivity'] = df['Review'].apply(lambda review: TextBlob(str(review)).sentiment.subjectivity)
+
+# write the dataframe out to csv
+df.to_csv('output2.csv')
+[nltk_data] Downloading package stopwords to
+[nltk_data]     C:\Users\Thomas\AppData\Roaming\nltk_data...
+[nltk_data]   Package stopwords is already up-to-date!
