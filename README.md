@@ -1,7 +1,10 @@
-# Computer Programming and Computational Statistics with Python Source Code
+# etl-in-python-tutorial
+A guide to show you how to import data for ETL
 
-The Computational Statistics with Python module (CSP) focuses on computational approaches to statistics; approaches to statistics and data analysis made available through modern computing. Computer Programming (CPRO) will focus on the development of applications, and in particular web applications. The initial focus, however, is providing familiarity with a programming environment in which to work. For this module, the chosen environments is Python.
+use python 3.7
 
-The principal goal of the book is to provider participants with the fundamentals of Python programming required to complete the exercises in the module, and the coursework (assessed, in part, by a timed test which starts the module). For the test, participants will be asked to create programming scripts based on the content of this book. Participants will be permitted access to this book during the test, as well as internet access. Any participant who completes the core exercises in this book (and the subsequent shorter specialism book), should be adequately equipped to successfully complete this test.
+use a virtual environment
 
-Additionally, the book aims to introduce participants to many of the common programming patterns and techniques that are used in almost all languages and environments. Finally, the book aims to provide participants with tutorials and scripts that can be used for common eBusiness tasks potentially relevant to projects and/or future work.
+original data from: https://www.kaggle.com/aainabajaj/data-insights-with-rfm-analysis
+
+For lessons 04 onward you will need to start your python interpreter from within the subdirectory in order for imports to work properly.
